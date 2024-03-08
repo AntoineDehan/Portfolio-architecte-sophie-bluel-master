@@ -1,69 +1,79 @@
 let works = null;
 let id = null;
 let categories = null;
+let user = null;
 
 let workConteneur = document.querySelector(".gallery");
-
-let btnConteneur = document.querySelector(".btn-conteneur")
-
+let btnConteneur = document.querySelector(".btn-conteneur");
 
 //Fonction API WORKS
-async function CreationWorks() {
-  const response = await fetch("http://localhost:5678/api/works");
-  works = await response.json();
+async function creationWorks(works) {
   for (let i = 0; i < works.length; i++) {
-  ProjectCreation(i)
+    projectCreation(works[i]);
   }
 }
 
+// Appel API et création de works
+async function apiWorks() {
+  const response = await fetch("http://localhost:5678/api/works");
+  works = await response.json();
+  creationWorks(works);
+}
+
 //Fonction API Categories
-async function CategoryList() {
-    const response = await fetch("http://localhost:5678/api/categories")
-    categories = await response.json()
-    for (let i = 0; i < categories.length; i++) {
-        BtnCreation(i)
-    }
+async function categoryList() {
+  const response = await fetch("http://localhost:5678/api/categories");
+  categories = await response.json();
+  for (let i = 0; i < categories.length; i++) {
+    btnCreation(i);
+  }
 }
 
 //fonction création projets HTML
-function ProjectCreation(i) {
+function projectCreation(work) {
   let figure = document.createElement("figure");
   let imgWork = document.createElement("img");
   let descriptionWork = document.createElement("figcaption");
 
   workConteneur.appendChild(figure);
+  figure.appendChild(imgWork);
+  figure.appendChild(descriptionWork);
 
-  let figureConteneur = document.querySelectorAll("#portfolio figure")[i];
-
-  figureConteneur.appendChild(imgWork);
-  figureConteneur.appendChild(descriptionWork);
-
-  descriptionWork.innerText = works[i].title;
-  imgWork.src = works[i].imageUrl;
+  descriptionWork.innerText = work.title;
+  imgWork.src = work.imageUrl;
 }
 
 //Fonction création bouttons HTML
-function BtnCreation(i) {
-let btn = document.createElement("button");
+function btnCreation(i) {
+  let btn = document.createElement("button");
 
-btnConteneur.appendChild(btn)
-btn.setAttribute("data-value", categories[i].id)
-btn.innerText = categories[i].name
+  btnConteneur.appendChild(btn);
+  btn.setAttribute("data-id", categories[i].id);
+  btn.innerText = categories[i].name;
 }
 
-// Bouton filtre par OBJET --
-// const btnObjets = document.querySelector(".btn-objets");
-
-// boutonObjets.addEventListener("click", function () {
-//   const filteredWorks = works.filter((work) => {
-//     return (work.categoryId = 1);
-//   });
-// });
+function regenerationProjets() {
+  document.querySelector(".gallery").innerHTML = "";
+}
 
 // Lancement des fonctions
-CategoryList()
-CreationWorks()
+async function main() {
+  await apiWorks();
+  await categoryList();
 
-
-
-
+  //Filtres
+  btnConteneur.addEventListener("click", function (event) {
+    const id = event.target.getAttribute("data-id");
+    if (id == 0) {
+      regenerationProjets();
+      creationWorks(works);
+    } else {
+      const filteredWorks = works.filter(
+        (work) => work.categoryId.toString() === id
+      );
+      regenerationProjets();
+      creationWorks(filteredWorks);
+    }
+  });
+}
+main();

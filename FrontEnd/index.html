@@ -9,8 +9,6 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
-	<link rel="script" href="test.js">
-	<link rel="script" href="assets/script.js" defer>
 </head>
 <body>
 <header>
@@ -36,9 +34,12 @@
 			<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
 		</article>
 	</section>
-	<div class="btn-conteneur"></div>
+	<div class="btn-conteneur">
+		<button data-id="0">Tous</button>
+	</div>
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
+		<a href="modale1">Modifier la galerie</a>
 		<div class="gallery">
 		</div>
 	</section>
@@ -55,6 +56,11 @@
 			<input type="submit" value="Envoyer">
 		</form>
 	</section>
+	<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-label="titlemodal">
+		<div class="model-wrapper">
+			<h1 id="titlemodal">Galerie Photo</h1>
+		</div>
+	</aside>
 </main>
 
 <footer>
@@ -64,6 +70,6 @@
 		</ul>
 	</nav>
 </footer>
-<script src="assets/script.js"></script>
+<script src="assets/script.js" defer></script>
 </body>
 </html>
