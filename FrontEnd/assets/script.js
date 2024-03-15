@@ -2,14 +2,18 @@ let works = null;
 let id = null;
 let categories = null;
 let user = null;
+const userToken = window.localStorage.getItem("token")
 
-let workConteneur = document.querySelector(".gallery");
-let btnConteneur = document.querySelector(".btn-conteneur");
+const workConteneur = document.querySelector(".gallery");
+const modalWorkConteneur = document.querySelector(".gallery-modal")
+const btnConteneur = document.querySelector(".btn-conteneur");
+
 
 //Fonction API WORKS
 async function creationWorks(works) {
   for (let i = 0; i < works.length; i++) {
     projectCreation(works[i]);
+    projectCreationModal(works[i]);
   }
 }
 
@@ -56,10 +60,47 @@ function regenerationProjets() {
   document.querySelector(".gallery").innerHTML = "";
 }
 
-// Lancement des fonctions
+// //  Modal --
+
+// fonction création projets HTML dans la Modal
+function projectCreationModal(work) {
+  let figure = document.createElement("figure");
+  let imgWork = document.createElement("img");
+  let iHtml = document.createElement("i")
+
+  modalWorkConteneur.appendChild(figure);
+
+  figure.appendChild(imgWork);
+  figure.appendChild(iHtml);
+  figure.dataset.id = work.id
+
+  iHtml.classList.add("fa-solid", "fa-trash-can")
+  imgWork.src = work.imageUrl;
+}
+
+// Suppression d'un projet
+function deleteWorks() {
+
+  document.querySelectorAll(".fa-trash-can").forEach((delWorkBtn) => {
+    delWorkBtn.addEventListener("click", async function (e) {
+      const workId = e.target.parentElement.getAttribute("data-id")
+      console.log(workId)
+      const delet = await fetch("http://localhost:5678/api/works/" + workId, {
+        method: "DELETE",
+        headers: { "Authorization": "Bearer" + userToken},
+      })
+      
+    })
+  })
+
+}
+
+
+// Fonction principale -- Lancement de toutes les fonctions nécessaires
 async function main() {
   await apiWorks();
   await categoryList();
+  deleteWorks();
 
   //Filtres
   btnConteneur.addEventListener("click", function (event) {
@@ -76,4 +117,7 @@ async function main() {
     }
   });
 }
+
+
+// Lancement de la fonction main
 main();

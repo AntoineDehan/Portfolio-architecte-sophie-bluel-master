@@ -8,6 +8,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
+	<script src="https://kit.fontawesome.com/fad63a2d48.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
@@ -17,7 +18,7 @@
 		<ul>
 			<li>projets</li>
 			<li>contact</li>
-			<li>login</li>
+			<li><a href="./login.html">login</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -39,7 +40,7 @@
 	</div>
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
-		<a href="modale1">Modifier la galerie</a>
+		<a href="#modale1" class="js-modal-show">Modifier la galerie</a>
 		<div class="gallery">
 		</div>
 	</section>
@@ -56,11 +57,20 @@
 			<input type="submit" value="Envoyer">
 		</form>
 	</section>
-	<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-label="titlemodal">
-		<div class="model-wrapper">
-			<h1 id="titlemodal">Galerie Photo</h1>
+
+
+
+	<dialog id="modal1" class="modal" aria-hidden="true" role="dialog" aria-label="titlemodal">
+		<div class="modal-conteneur">
+			<button class="js-modal-close" autofocus>X</button>
+			<h2>Galerie photo</h2>
+			<div class="gallery-modal"></div>
+			<button class="add-work-btn">Ajouter une photo</button>
 		</div>
-	</aside>
+	</dialog>
+
+
+
 </main>
 
 <footer>
@@ -71,5 +81,6 @@
 	</nav>
 </footer>
 <script src="assets/script.js" defer></script>
+<script src="assets/modal.js" defer></script>
 </body>
 </html>

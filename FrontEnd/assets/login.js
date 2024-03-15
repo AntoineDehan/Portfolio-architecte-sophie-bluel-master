@@ -19,6 +19,11 @@ function loginListener() {
         body: chargeUtile,
       });
       user = await response.json()
+      console.log(user)
+      if (response.ok) {
+        window.localStorage.setItem("token", user.token)
+      }
+
     });
   }
 
