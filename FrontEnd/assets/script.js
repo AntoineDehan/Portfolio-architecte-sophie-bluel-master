@@ -2,11 +2,13 @@ let works = null;
 let id = null;
 let categories = null;
 let user = null;
+let workId = null;
 const userToken = window.localStorage.getItem("token")
 
 const workConteneur = document.querySelector(".gallery");
 const modalWorkConteneur = document.querySelector(".gallery-modal")
 const btnConteneur = document.querySelector(".btn-conteneur");
+const workAddForm = document.forms.namedItem("add-work-form")
 
 
 //Fonction API WORKS
@@ -60,7 +62,7 @@ function regenerationProjets() {
   document.querySelector(".gallery").innerHTML = "";
 }
 
-// //  Modal --
+// //  Modal -- Suppression
 
 // fonction création projets HTML dans la Modal
 function projectCreationModal(work) {
@@ -84,7 +86,6 @@ function deleteWorks() {
   document.querySelectorAll(".fa-trash-can").forEach((delWorkBtn) => {
     delWorkBtn.addEventListener("click", async function (e) {
       const workId = e.target.parentElement.getAttribute("data-id")
-      console.log(workId)
       const delet = await fetch("http://localhost:5678/api/works/" + workId, {
         method: "DELETE",
         headers: { "Authorization": "Bearer" + userToken},
@@ -92,8 +93,43 @@ function deleteWorks() {
       
     })
   })
-
+  test(workId)
 }
+
+function test(id) {
+  if (id === null) {
+    return
+  }
+ else {
+  const filteredDeletedWorks = works.filter(
+    (work) => work.id.toString() === id
+  );
+  regenerationProjets()
+  creationWorks(filteredDeletedWorks)
+ }
+}
+
+
+// //  Modal -- Ajout
+workAddForm.addEventListener("submit", async function (e) { 
+  e.preventDefault()
+  const title = document.querySelector("#title")
+  const file = document.querySelector("#add-image")
+  const category = document.querySelector("#category")
+
+  const addWork = {
+    image: file.value,
+    title: title.value,
+    category: category.value
+  }
+  const chargeUtile = JSON.stringify(addWork)
+
+  const response = await fetch("http://localhost:5678/api/works", {
+    method: "POST",
+    headers: { "Authorization": "Bearer" + userToken},
+    body: chargeUtile,
+    })
+})
 
 
 // Fonction principale -- Lancement de toutes les fonctions nécessaires
@@ -102,7 +138,10 @@ async function main() {
   await categoryList();
   deleteWorks();
 
-  //Filtres
+  // Filtres
+
+
+  // Filtres boutons
   btnConteneur.addEventListener("click", function (event) {
     const id = event.target.getAttribute("data-id");
     if (id == 0) {

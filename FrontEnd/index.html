@@ -60,7 +60,7 @@
 
 
 
-	<dialog id="modal1" class="modal" aria-hidden="true" role="dialog" aria-label="titlemodal">
+	<dialog id="modal1" class="modal1" aria-hidden="true" role="dialog" aria-label="titlemodal">
 		<div class="modal-conteneur">
 			<button class="js-modal-close" autofocus>X</button>
 			<h2>Galerie photo</h2>
@@ -69,6 +69,18 @@
 		</div>
 	</dialog>
 
+	<dialog class="modal2" aria-hidden="true" role="dialog" aria-label="titlemodal"> 
+		<div>
+			<button class="js-modal-close2" autofocus>X</button>
+			<h2>Ajout photo</h2>
+			<form enctype="multipart/form-data" method="post" name="add-work-form">
+				<input type="file" id="add-image" name="add-image" accept="image/png, image/jpeg">
+				<input type="text" id="title" name="title">
+				<input type="text" id="category" name="category">
+				<input type="submit" id="submit" name="submit" value="Valider">
+			</form>
+		</div>
+	</dialog>
 
 
 </main>
