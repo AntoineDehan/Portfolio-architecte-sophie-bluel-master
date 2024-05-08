@@ -3,12 +3,14 @@ let id = null;
 let categories = null;
 let user = null;
 let workId = null;
-const userToken = window.localStorage.getItem("token")
+let userToken = window.localStorage.getItem("token")
 
 const workConteneur = document.querySelector(".gallery");
 const modalWorkConteneur = document.querySelector(".gallery-modal")
 const btnConteneur = document.querySelector(".btn-conteneur");
 const workAddForm = document.forms.namedItem("add-work-form")
+
+
 
 
 //Fonction API WORKS
@@ -49,14 +51,27 @@ function projectCreation(work) {
   imgWork.src = work.imageUrl;
 }
 
+
 //Fonction création bouttons HTML
 function btnCreation(i) {
   let btn = document.createElement("button");
 
   btnConteneur.appendChild(btn);
   btn.setAttribute("data-id", categories[i].id);
+  btn.classList.add("inactif-btn")
   btn.innerText = categories[i].name;
 }
+
+function selectedBtn() {
+  let currentBtn = document.querySelectorAll(".btn-conteneur button")[i]
+  currentBtn.classList.add("actif-btn")
+}
+
+function unselectedBtn() {
+  let currentBtn = document.querySelector(".actif-btn")
+  currentBtn.classList.remove("dot_selected")
+}
+
 
 function regenerationProjets() {
   document.querySelector(".gallery").innerHTML = "";
@@ -93,10 +108,10 @@ function deleteWorks() {
       
     })
   })
-  test(workId)
+  regenerationFiltered(workId)
 }
 
-function test(id) {
+function regenerationFiltered(id) {
   if (id === null) {
     return
   }
@@ -111,7 +126,7 @@ function test(id) {
 
 
 // //  Modal -- Ajout
-workAddForm.addEventListener("submit", async function (e) { 
+workAddForm.addEventListener("submit", async function (e, works) { 
   e.preventDefault()
   const title = document.querySelector("#title")
   const file = document.querySelector("#add-image")
@@ -129,7 +144,94 @@ workAddForm.addEventListener("submit", async function (e) {
     headers: { "Authorization": "Bearer" + userToken},
     body: chargeUtile,
     })
+    if (response.ok) {
+      works.push(addWork)
+      regenerationProjets()
+      creationWorks()
+    }
+    else {
+      return
+    }
+
 })
+
+
+
+// Si Login ou PAS
+function loginCreation() {
+  const loginConteneur = document.querySelector(".login-conteneur")
+  const editConteneur = document.querySelector(".edit-galery-conteneur")
+
+  let icone = document.createElement("i")
+  let login = document.createElement("li")
+  let link = document.createElement("a")
+  if ( userToken === null) {
+
+    loginConteneur.appendChild(login)
+    login.appendChild(link)
+
+    link.innerText = "login"
+    link.href = "./login.html"
+    
+  }
+
+  else {
+    editConteneur.appendChild(icone)
+    icone.classList.add("fa-regular", "fa-pen-to-square")
+    editConteneur.appendChild(link)
+    link.classList.add("js-modal-show")
+    link.innerText = "Modifier"
+    link.href = "#modale1"
+    loginConteneur.appendChild(login)
+    login.innerText = "logout"
+    login.classList.add("logout")
+
+    const logout = document.querySelector(".logout")
+
+    logout.addEventListener("click", () => {
+      userToken = null;
+      location.reload()
+    })
+
+    const dialog = document.querySelector(".modal1");
+    const showBtn = document.querySelector(".js-modal-show");
+    const closeBtn = document.querySelector(".js-modal-close");
+
+    const dialogAddWork = document.querySelector(".modal2");
+    const showBtnAdd = document.querySelector(".add-work-btn");
+    const closeBtnAdd = document.querySelector(".js-modal-close2");
+    const previousBtn = document.querySelector(".fa-arrow-left");
+
+
+
+    // Ouverture de la modale
+    showBtn.addEventListener("click", () => {
+    dialog.showModal();
+    })
+
+    // Fermeture de la modale
+    closeBtn.addEventListener("click", () => {
+      dialog.close();
+    })
+
+    //
+    showBtnAdd.addEventListener("click", () => {
+      dialog.close()
+      dialogAddWork.showModal();
+      })
+
+    //
+    closeBtnAdd.addEventListener("click", () => {
+      dialogAddWork.close();
+    })
+
+    //Passer de modal 2 a modal 1
+    previousBtn.addEventListener("click",() => {
+      dialog.showModal();
+      dialogAddWork.close();
+    }) 
+  }
+}
 
 
 // Fonction principale -- Lancement de toutes les fonctions nécessaires
@@ -137,13 +239,19 @@ async function main() {
   await apiWorks();
   await categoryList();
   deleteWorks();
-
-  // Filtres
+  loginCreation();
 
 
   // Filtres boutons
   btnConteneur.addEventListener("click", function (event) {
     const id = event.target.getAttribute("data-id");
+
+    const btnActif = document.querySelector(".actif-btn")
+    btnActif.classList.remove("actif-btn")
+
+    const btns = document.querySelectorAll(".btn-conteneur button")[id]
+    btns.classList.add("actif-btn")
+
     if (id == 0) {
       regenerationProjets();
       creationWorks(works);

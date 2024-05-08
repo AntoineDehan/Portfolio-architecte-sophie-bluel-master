@@ -1,5 +1,6 @@
 function loginListener() {
     const formLogin = document.querySelector(".login-form");
+    const error = document.querySelector(".error")
   
     formLogin.addEventListener("submit", async function (e) {
       e.preventDefault()
@@ -22,6 +23,10 @@ function loginListener() {
       console.log(user)
       if (response.ok) {
         window.localStorage.setItem("token", user.token)
+        window.location.href = "./index.html"
+      }
+      else {
+        error.setAttribute("style", "display: block;")
       }
 
     });

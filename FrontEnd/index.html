@@ -15,10 +15,10 @@
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
-		<ul>
+		<ul class="navbar">
 			<li>projets</li>
 			<li>contact</li>
-			<li><a href="./login.html">login</a></li>
+			<div class="login-conteneur"></div>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -35,12 +35,13 @@
 			<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
 		</article>
 	</section>
-	<div class="btn-conteneur">
-		<button data-id="0">Tous</button>
-	</div>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
-		<a href="#modale1" class="js-modal-show">Modifier la galerie</a>
+		<div class="edit-galery-conteneur">
+			<h2>Mes Projets</h2>
+		</div>
+		<div class="btn-conteneur">
+			<button data-id="0" class="inactif-btn actif-btn">Tous</button>
+		</div>
 		<div class="gallery">
 		</div>
 	</section>
@@ -62,8 +63,11 @@
 
 	<dialog id="modal1" class="modal1" aria-hidden="true" role="dialog" aria-label="titlemodal">
 		<div class="modal-conteneur">
-			<button class="js-modal-close" autofocus>X</button>
-			<h2>Galerie photo</h2>
+			<div class="top-modal">
+				<div> </div>
+				<h2>Galerie photo</h2>
+				<button class="js-modal-close close-btn" autofocus><i class="fa-solid fa-xmark"></i></button>
+			</div>
 			<div class="gallery-modal"></div>
 			<button class="add-work-btn">Ajouter une photo</button>
 		</div>
@@ -71,13 +75,25 @@
 
 	<dialog class="modal2" aria-hidden="true" role="dialog" aria-label="titlemodal"> 
 		<div>
-			<button class="js-modal-close2" autofocus>X</button>
-			<h2>Ajout photo</h2>
-			<form enctype="multipart/form-data" method="post" name="add-work-form">
-				<input type="file" id="add-image" name="add-image" accept="image/png, image/jpeg">
-				<input type="text" id="title" name="title">
-				<input type="text" id="category" name="category">
-				<input type="submit" id="submit" name="submit" value="Valider">
+			<div class="top-modal-work">
+				<div><i class="fa-solid fa-arrow-left"></i></div>
+				<h2>Ajout photo</h2>
+				<button class="js-modal-close2 close-btn" autofocus><i class="fa-solid fa-xmark"></i></button>
+			</div>
+			<form enctype="multipart/form-data" method="post" name="add-work-form" class="add-work-form">
+				<div class="add-picture-conteneur">
+					<i class="fa-regular fa-image"></i>
+					<input type="file" id="add-image" name="add-image" accept="image/png, image/jpeg">
+					<button class="add-image-btn">+ Ajouter photo</button>
+					<p>jpg, png : 4mo max</p>
+				</div>
+				<div class="add-content">
+					<label for="title">Titre</label>
+					<input type="text" id="title" name="title">
+					<label for="title">Catégorie</label>
+					<input type="text" id="category" name="category">
+				</div>
+				<input type="submit" id="submit" name="submit" value="Valider" class="add-work-valider">
 			</form>
 		</div>
 	</dialog>
