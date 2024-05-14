@@ -216,15 +216,30 @@ footer nav ul {
 }
 
 
+.top-portfolio {
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
 .edit-galery-conteneur {
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	margin-bottom: 30px;
+}
+.edit-galery-conteneur a {
+	text-decoration: none;
+}
+
+.edit-galery-conteneur a:visited {
+	color: black;
 }
 
 .fa-pen-to-square {
 	padding-left: 10px;
 	margin-left: 10px;
+	margin-right: 10px;
 }
 
 
