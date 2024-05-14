@@ -13,6 +13,13 @@ const workAddForm = document.forms.namedItem("add-work-form")
 
 
 // // API
+// Appel API et création de works
+async function apiWorks() {
+  const response = await fetch("http://localhost:5678/api/works");
+  works = await response.json();
+  creationWorks(works);
+}
+
 //Fonction API WORKS
 async function creationWorks(works) {
   for (let i = 0; i < works.length; i++) {
@@ -21,14 +28,7 @@ async function creationWorks(works) {
   }
 }
 
-// Appel API et création de works
-async function apiWorks() {
-  const response = await fetch("http://localhost:5678/api/works");
-  works = await response.json();
-  creationWorks(works);
-}
-
-//Fonction API Categories
+//Fonction API Categories btn
 async function categoryList() {
   const response = await fetch("http://localhost:5678/api/categories");
   categories = await response.json();
@@ -64,17 +64,6 @@ function btnCreation(i) {
   btn.classList.add("inactif-btn")
   btn.innerText = categories[i].name;
 }
-
-function selectedBtn() {
-  let currentBtn = document.querySelectorAll(".btn-conteneur button")[i]
-  currentBtn.classList.add("actif-btn")
-}
-
-function unselectedBtn() {
-  let currentBtn = document.querySelector(".actif-btn")
-  currentBtn.classList.remove("dot_selected")
-}
-
 
 function regenerationProjets() {
   document.querySelector(".gallery").innerHTML = "";
