@@ -12,7 +12,7 @@ const workAddForm = document.forms.namedItem("add-work-form")
 
 
 
-
+// // API
 //Fonction API WORKS
 async function creationWorks(works) {
   for (let i = 0; i < works.length; i++) {
@@ -36,6 +36,9 @@ async function categoryList() {
     btnCreation(i);
   }
 }
+
+// //
+
 
 //fonction création projets HTML
 function projectCreation(work) {
@@ -77,8 +80,8 @@ function regenerationProjets() {
   document.querySelector(".gallery").innerHTML = "";
 }
 
-// //  Modal -- Suppression
 
+// // Modal
 // fonction création projets HTML dans la Modal
 function projectCreationModal(work) {
   let figure = document.createElement("figure");
@@ -125,7 +128,7 @@ function regenerationFiltered(id) {
 }
 
 
-// //  Modal -- Ajout
+// Ajout d'un projet
 workAddForm.addEventListener("submit", async function (e, works) { 
   e.preventDefault()
   const title = document.querySelector("#title")
@@ -156,8 +159,10 @@ workAddForm.addEventListener("submit", async function (e, works) {
 })
 
 
+// // 
 
-// Si Login ou PAS
+
+// Changement site si login ou non
 function loginCreation() {
   const loginConteneur = document.querySelector(".login-conteneur")
   const editConteneur = document.querySelector(".edit-galery-conteneur")
