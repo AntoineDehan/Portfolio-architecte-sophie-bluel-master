@@ -92,12 +92,13 @@ function deleteWorks() {
 
   document.querySelectorAll(".fa-trash-can").forEach((delWorkBtn) => {
     delWorkBtn.addEventListener("click", async function (e) {
+      console.log("click")
       const workId = e.target.parentElement.getAttribute("data-id")
+      console.log(userToken)
       const delet = await fetch("http://localhost:5678/api/works/" + workId, {
         method: "DELETE",
-        headers: { "Authorization": "Bearer" + userToken},
+        headers: { Authorization: `Bearer ${userToken}` } 
       })
-      
     })
   })
   regenerationFiltered(workId)
@@ -124,17 +125,17 @@ workAddForm.addEventListener("submit", async function (e, works) {
   const file = document.querySelector("#add-image")
   const category = document.querySelector("#category")
 
-  const addWork = {
-    image: file.value,
-    title: title.value,
-    category: category.value
-  }
-  const chargeUtile = JSON.stringify(addWork)
+  const formData = new FormData();
+  formData.append("title", title.value);
+  formData.append("category", category.value);
+  formData.append("image", file.files[0]);
 
   const response = await fetch("http://localhost:5678/api/works", {
-    method: "POST",
-    headers: { "Authorization": "Bearer" + userToken},
-    body: chargeUtile,
+      method: "POST",
+      headers: {
+          Authorization: `Bearer ${userToken}`,
+      },
+      body: formData,
     })
     if (response.ok) {
       works.push(addWork)
@@ -148,7 +149,7 @@ workAddForm.addEventListener("submit", async function (e, works) {
 })
 
 
-// // 
+// // Fin Modal
 
 
 // Changement site si login ou non
