@@ -152,7 +152,7 @@ workAddForm.addEventListener("submit", async function (e, works) {
 
 
 // Changement site si login ou non
-function loginCreation() {
+ async function indexModifLogin() {
   const loginConteneur = document.querySelector(".login-conteneur")
   const editConteneur = document.querySelector(".edit-galery-conteneur")
 
@@ -160,16 +160,16 @@ function loginCreation() {
   let login = document.createElement("li")
   let link = document.createElement("a")
   if ( userToken === null) {
-
+    await categoryList();
     loginConteneur.appendChild(login)
     login.appendChild(link)
-
     link.innerText = "login"
     link.href = "./login.html"
     
   }
 
   else {
+    document.querySelector(".btn-conteneur").innerHTML = "";
     editConteneur.appendChild(icone)
     icone.classList.add("fa-regular", "fa-pen-to-square")
     editConteneur.appendChild(link)
@@ -183,10 +183,20 @@ function loginCreation() {
     const logout = document.querySelector(".logout")
 
     logout.addEventListener("click", () => {
-      userToken = null;
+      localStorage.removeItem("token")
       location.reload()
     })
 
+
+    //fonction de limite de taille d'upload
+    sizelimit()
+
+    // Bande mode édition
+    const editionBar = document.querySelector(".mode-edition")
+
+    editionBar.setAttribute("style", "display: flex")
+
+    // Gestion Modale
     const dialog = document.querySelector(".modal1");
     const showBtn = document.querySelector(".js-modal-show");
     const closeBtn = document.querySelector(".js-modal-close");
@@ -228,12 +238,23 @@ function loginCreation() {
 }
 
 
+// Limite de 4MO pour l'image d'upload
+function sizelimit() {
+  const file = document.querySelector("#add-image")
+ 
+  file.onchange = function() {
+    if(this.files[0].size > 4194304) {
+      alert("L'image est trop grande!");
+      this.value = "";
+    }
+  }
+}
+
 // Fonction principale -- Lancement de toutes les fonctions nécessaires
 async function main() {
   await apiWorks();
-  await categoryList();
   deleteWorks();
-  loginCreation();
+  indexModifLogin();
 
 
   // Filtres boutons
