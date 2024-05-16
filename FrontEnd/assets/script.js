@@ -32,6 +32,7 @@ async function creationWorks(works) {
 async function categoryList() {
   const response = await fetch("http://localhost:5678/api/categories");
   categories = await response.json();
+  if ( userToken === null)
   for (let i = 0; i < categories.length; i++) {
     btnCreation(i);
   }
@@ -92,29 +93,18 @@ function deleteWorks() {
 
   document.querySelectorAll(".fa-trash-can").forEach((delWorkBtn) => {
     delWorkBtn.addEventListener("click", async function (e) {
-      console.log("click")
       const workId = e.target.parentElement.getAttribute("data-id")
-      console.log(userToken)
       const delet = await fetch("http://localhost:5678/api/works/" + workId, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${userToken}` } 
       })
+      const filteredDeletedWorks = works.filter(
+        (work) => work.id.toString() === id
+      );
+      regenerationProjets()
+      creationWorks(filteredDeletedWorks)
     })
   })
-  regenerationFiltered(workId)
-}
-
-function regenerationFiltered(id) {
-  if (id === null) {
-    return
-  }
- else {
-  const filteredDeletedWorks = works.filter(
-    (work) => work.id.toString() === id
-  );
-  regenerationProjets()
-  creationWorks(filteredDeletedWorks)
- }
 }
 
 
@@ -148,6 +138,45 @@ workAddForm.addEventListener("submit", async function (e, works) {
 
 })
 
+// Previsualisation image
+const inputImg = document.getElementById("add-image")
+const previewImg = document.querySelector(".preview-img")
+const uploadConteneur = document.querySelector(".add-picture-conteneur")
+const iToHide = document.querySelector(".fa-image")
+const inputToHide = document.querySelector(".add-image-btn")
+const pToHide = document.querySelector(".add-picture-conteneur p")
+
+  inputImg.addEventListener("change", () => {
+    const img = inputImg.files[0]
+    console.log(img)
+    if (img == null) {
+      return
+    }
+    iToHide.setAttribute("style", "display: none")
+    inputToHide.setAttribute("style", "display: none")
+    pToHide.setAttribute("style", "display: none")
+    previewImg.src = URL.createObjectURL(img)
+    previewImg.setAttribute("style", "display: block")
+  })
+
+
+  // Liste catégories pour Upload
+  async function categoryUploadList() {
+    const list = document.querySelector(".add-content select")
+    await categoryList()
+    categories.forEach(category => {
+      const option = document.createElement("option")
+      option.value = category.id
+      option.textContent = category.name
+      list.appendChild(option)
+    })
+  }
+
+  
+
+
+
+
 
 // // Fin Modal
 
@@ -161,7 +190,6 @@ workAddForm.addEventListener("submit", async function (e, works) {
   let login = document.createElement("li")
   let link = document.createElement("a")
   if ( userToken === null) {
-    await categoryList();
     loginConteneur.appendChild(login)
     login.appendChild(link)
     link.innerText = "login"
@@ -188,7 +216,7 @@ workAddForm.addEventListener("submit", async function (e, works) {
       location.reload()
     })
 
-
+    //fonction prévisualisation d'image
     //fonction de limite de taille d'upload
     sizelimit()
 
@@ -256,6 +284,7 @@ async function main() {
   await apiWorks();
   deleteWorks();
   indexModifLogin();
+  categoryUploadList()
 
 
   // Filtres boutons

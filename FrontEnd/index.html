@@ -91,13 +91,14 @@
 					<i class="fa-regular fa-image"></i>
 					<input type="file" id="add-image" name="add-image" accept="image/png, image/jpeg">
 					<button class="add-image-btn">+ Ajouter photo</button>
+					<img src="#" class="preview-img" alt="Apercu de l'image envoyée">
 					<p>jpg, png : 4mo max</p>
 				</div>
 				<div class="add-content">
 					<label for="title">Titre</label>
 					<input type="text" id="title" name="title">
-					<label for="title">Catégorie</label>
-					<input type="text" id="category" name="category">
+					<label for="category">Catégorie</label>
+					<select name="category" id="category"></select>
 				</div>
 				<input type="submit" id="submit" name="submit" value="Valider" class="add-work-valider">
 			</form>

@@ -125,9 +125,6 @@ li:hover {
 #introduction article {
 	flex: 1
 }
-#introduction h2 {
-	/* margin-bottom: 1em; */
-}
 
 #introduction p {
 	margin-bottom: 0.5em;
@@ -379,6 +376,13 @@ height: 100%;
 	opacity: 0;
 }
 
+.preview-img {
+	height: 100%;
+	width: 100%;
+	object-fit: contain;
+	display: none;
+}
+
 .add-image-btn {
 	font-family: inherit;
 	color: #437490;
@@ -435,6 +439,15 @@ height: 100%;
 
 .add-content input {
 	border: none;
+    box-shadow: 5px 5px 6px 4px lightgray;
+    height: 45px;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.add-content select {
+	border: none;
+	background-color: white;
     box-shadow: 5px 5px 6px 4px lightgray;
     height: 45px;
     width: 100%;
